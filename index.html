@@ -72,7 +72,7 @@
                 second: '2-digit'
             };
             const dateTimeString = currentDate.toLocaleString('en-US', options);
-            datetime.textContent = dateTimeString.replace("at", "");
+            datetime.textContent = dateTimeString.replace(" at", " ");
         }
         updateMonthAndYear();
         updateCountdown();
