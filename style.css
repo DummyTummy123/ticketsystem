@@ -1,10 +1,3 @@
-:root {
-    --first: #F05C5A;
-    --stripone: #46C4B9;
-    --striptwo: #E791B8;
-    --stripthree: #E056A3;
-  }
-
 html {
     overflow: hidden; /* Prevents scrolling for the entire document */
 }
