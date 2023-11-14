@@ -1,4 +1,5 @@
 from PIL import Image
+import subprocess
 from git import Repo, GitCommandError
 
 def extract_colors_from_image(image_path, coordinates):
@@ -21,16 +22,16 @@ def update_css_file(css_path, colors):
     with open(css_path, 'w') as file:
         file.write(text_to_write)
 
-def git_push_changes(repo_path, commit_message, file_path, git_access_token):
-    repo = Repo(repo_path)
-    git = repo.git
-    git.add(file_path)
-    git.commit('-m', commit_message)
-    git.push('https://' + git_access_token + '@github.com/DummyTummy123/ticketsystem.git', repo.active_branch.name)
+def git_push_changes():
+    subprocess.run(["cd", r"D:\ticketsystem"], check=True, shell=True)
+    subprocess.run(["git", "add", "."], check=True)
+    subprocess.run(["git", "commit", "-m", "Updated_colors"], check=True)
+    remote_url = f"https://dummytummy123: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@github.com/dummytummy123/ticketsystem.git"
+    subprocess.run(["git", "push", remote_url, "main"], check=True)
 
 image_path = 'image.jpg'
 css_path = 'color.css'
 pinpoints = [(309, 428), (57, 240), (57, 600), (57, 960)]
 colors = extract_colors_from_image(image_path, pinpoints)
 update_css_file(css_path, colors)
-# git_push_changes("D:/ticketsystem", "Updated colors in CSS variables", css_path, "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")
+git_push_changes()
