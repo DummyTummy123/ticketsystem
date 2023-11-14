@@ -33,4 +33,4 @@ css_path = 'color.css'
 pinpoints = [(309, 428), (57, 240), (57, 600), (57, 960)]
 colors = extract_colors_from_image(image_path, pinpoints)
 update_css_file(css_path, colors)
-git_push_changes("D:/ticketsystem", "Updated colors in CSS variables", css_path, "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")
+# git_push_changes("D:/ticketsystem", "Updated colors in CSS variables", css_path, "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")
