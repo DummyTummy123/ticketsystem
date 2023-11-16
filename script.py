@@ -19,6 +19,8 @@ def update_css_file(css_path, colors):
         --stripthree: {colors[3]};
     }}'''
 
+
+
     with open(css_path, 'w') as file:
         file.write(text_to_write)
 
