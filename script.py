@@ -26,7 +26,7 @@ def git_push_changes():
     subprocess.run(["cd", r"D:\ticketsystem"], check=True, shell=True)
     subprocess.run(["git", "add", "."], check=True)
     subprocess.run(["git", "commit", "-m", "Updated_colors"], check=True)
-    remote_url = f"https://dummytummy123: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@github.com/dummytummy123/ticketsystem.git"
+    remote_url = f"https://dummytummy123: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@github.com/dummytummy123/ticketsystem.git"
     subprocess.run(["git", "push", remote_url, "main"], check=True)
 
 image_path = 'image.jpg'
