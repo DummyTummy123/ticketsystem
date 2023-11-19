@@ -2,6 +2,25 @@ from PIL import Image
 import subprocess
 from git import Repo, GitCommandError
 from config import tokeen
+import requests
+import time
+
+TELEGRAM_API_URL = "https://api.telegram.org/bot6411496327:AAH2Xs84lg1OYqioAFYJWv2WZPKJfdFgf_E"
+def get_updates(offset=None):
+    params = {"offset": offset} if offset else {}
+    response = requests.get(f"{TELEGRAM_API_URL}/getUpdates", params=params)
+    return response.json().get("result", [])
+
+def download_file(file_id, file_path):
+    response = requests.get(f"{TELEGRAM_API_URL}/getFile", params={"file_id": file_id})
+    file_url = response.json().get("result", {}).get("file_path")
+    file_data = requests.get(f"https://api.telegram.org/file/bot6411496327:AAH2Xs84lg1OYqioAFYJWv2WZPKJfdFgf_E/{file_url}")
+    with open(file_path, "wb") as f:
+        f.write(file_data.content)
+
+def send_message(chat_id, text):
+    params = {"chat_id": chat_id, "text": text}
+    requests.post(f"{TELEGRAM_API_URL}/sendMessage", params=params)
 
 def extract_colors_from_image(image_path, coordinates):
     img = Image.open(image_path)
@@ -30,10 +49,27 @@ def git_push_changes():
     remote_url = f"https://dummytummy123:{tokeen}@github.com/dummytummy123/ticketsystem.git"
     subprocess.run(["git", "push", remote_url, "main"], check=True)
 
-image_path = 'image.jpg'
-css_path = 'color.css'
-colors = extract_colors_from_image(image_path, [(309, 428), (57, 240), (57, 600), (57, 960)])
-if colors[2]=="#ffffff":
-    colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
-update_css_file(css_path, colors)
-git_push_changes()
+offset = None
+while True:
+    updates = get_updates(offset)
+    if len(updates) > 0:
+        update = updates[-1]
+        offset = update["update_id"] + 1
+        message = update.get("message", {})
+        chat_id = message.get("chat", {}).get("id")
+        file_id = message.get("photo", [{}])[-1].get("file_id")
+        if file_id is None:
+            file_id = message.get("document", {}).get("file_id")
+        if file_id:
+            download_file(file_id, "image.jpg")
+            image_path = 'image.jpg'
+            css_path = 'color.css'
+            colors = extract_colors_from_image(image_path, [(309, 428), (57, 240), (57, 600), (57, 960)])
+            if colors[2]=="#ffffff":
+                colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
+            update_css_file(css_path, colors)
+            git_push_changes()
+            send_message(chat_id, "ok")
+    
+    print("Sleeping for 30")
+    time.sleep(30)
