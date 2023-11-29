@@ -70,6 +70,7 @@ while True:
             update_css_file(css_path, colors)
             git_push_changes()
             send_message(chat_id, "ok")
+            get_updates(offset)
     
     print("Sleeping for 30")
     time.sleep(30)
