@@ -1,6 +1,5 @@
 from PIL import Image
 import subprocess
-from git import Repo, GitCommandError
 from config import tokeen
 import requests
 import time
