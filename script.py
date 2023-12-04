@@ -50,7 +50,11 @@ def git_push_changes():
 
 offset = None
 while True:
-    updates = get_updates(offset)
+    try:
+        updates = get_updates(offset)
+    except:
+        time.sleep(30)
+        continue
     if len(updates) > 0:
         update = updates[-1]
         offset = update["update_id"] + 1
