@@ -36,7 +36,9 @@ def update_css_file(css_path, colors):
         --stripone: {colors[1]};
         --striptwo: {colors[2]};
         --stripthree: {colors[3]};
-    }}'''
+    }}
+    /* {time.time()} */
+    '''
 
     with open(css_path, 'w') as file:
         file.write(text_to_write)
