@@ -20,7 +20,7 @@
         linkElement.rel = 'stylesheet';
         linkElement.type = 'text/css';
         const timestamp = new Date().getTime();
-        const updatedCssUrl = `http://172.105.36.133:5000/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
+        const updatedCssUrl = `https://172.105.36.133:5000/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
         linkElement.href = updatedCssUrl;
         document.head.appendChild(linkElement);
     </script>
