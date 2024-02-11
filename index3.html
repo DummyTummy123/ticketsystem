@@ -6,6 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="stylesheet" href="style.css">
+    <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://172.105.36.133;">
     <script>
         function getOrSetDeviceIdentifier() {
             let deviceIdentifier = localStorage.getItem('deviceIdentifier');
