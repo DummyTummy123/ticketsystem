@@ -36,7 +36,10 @@
             </div>
         </div>
         <div class="qr-square">
-            <img class="qr-code" src="https://dummytummy123.3utilities.com/generate_qr" alt="QR Code">
+            <img class="qr-code" src="" id="QRCODE" alt="QR Code">
+            <script type="text/javascript">
+            document.getElementById('QRCODE').src = `https://dummytummy123.3utilities.com/generate_qr?t=${timestamp}`;
+            </script>
             <div class="tap-to-enlarge">Tap to enlarge</div>
         </div>
     </div>
