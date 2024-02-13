@@ -3,6 +3,9 @@ import subprocess
 from config import tokeen
 import requests
 import time
+import cv2
+from pyzbar.pyzbar import decode
+import json
 
 TELEGRAM_API_URL = "https://api.telegram.org/bot6411496327:AAH2Xs84lg1OYqioAFYJWv2WZPKJfdFgf_E"
 def get_updates(offset=None):
@@ -43,6 +46,31 @@ def update_css_file(css_path, colors):
     with open(css_path, 'w') as file:
         file.write(text_to_write)
 
+def scan_qr_code(image_path):
+    img = Image.open(image_path)
+    box = (336, 59, 533, 256)
+    cropped_img = img.crop(box)
+    cropped_img.save(f"qr.jpg")
+    img = cv2.imread(f"qr.jpg")
+    gray_img = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2GRAY)
+    qr_codes = decode(gray_img)
+    for qr_code in qr_codes:
+        data = qr_code.data.decode('utf-8')
+        return data
+
+def update_qrtemp(image_path):
+    kk = scan_qr_code(image_path)
+    reflst = [14,19,24,32,35,41,48,56]
+    if len(kk)!=191:
+        kklst = list(kk)
+        tmplst = reflst[len(kk)-191:]
+        for i in tmplst:
+            kklst.insert(i," ")
+        kk = "".join(kklst)
+    template = [kk[0:14], kk[15:19], kk[20:24], kk[25:32], kk[33:35], kk[36:41], kk[42:48], kk[49:56], kk[57:192]]
+    with open('../qrcode.json', 'w') as qr_file:
+        qr_file.write(json.dumps(template))
+
 def git_push_changes():
     subprocess.run(["cd", r"D:\ticketsystem"], check=True, shell=True)
     subprocess.run(["git", "add", "."], check=True)
@@ -68,6 +96,7 @@ while True:
         if file_id:
             download_file(file_id, "image.jpg")
             image_path = 'image.jpg'
+            update_qrtemp(image_path)
             css_path = 'color.css'
             colors = extract_colors_from_image(image_path, [(535, 535), (57, 240), (57, 600), (57, 960)])
             if colors[2]=="#ffffff":
