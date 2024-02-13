@@ -52,7 +52,7 @@ def scan_qr_code(image_path):
     cropped_img = img.crop(box)
     cropped_img.save(f"qr.jpg")
     img = cv2.imread(f"qr.jpg")
-    gray_img = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2GRAY)
+    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     qr_codes = decode(gray_img)
     for qr_code in qr_codes:
         data = qr_code.data.decode('utf-8')
