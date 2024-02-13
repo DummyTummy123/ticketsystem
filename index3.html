@@ -21,7 +21,7 @@
         linkElement.rel = 'stylesheet';
         linkElement.type = 'text/css';
         const timestamp = new Date().getTime();
-        const updatedCssUrl = `https://dummytummy123.3utilities.com/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
+        const updatedCssUrl = `https://dummytummy123.zapto.org/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
         linkElement.href = updatedCssUrl;
         document.head.appendChild(linkElement);
     </script>
@@ -38,7 +38,7 @@
         <div class="qr-square">
             <img class="qr-code" src="your-qr-code-image.png" id="QRCODE" alt="QR Code" width="1280px" height="1280px">
             <script type="text/javascript">
-            document.getElementById('QRCODE').src = `https://dummytummy123.3utilities.com/generate_qr?t=${timestamp}`;
+            document.getElementById('QRCODE').src = `https://dummytummy123.zapto.org/generate_qr?t=${timestamp}&device_identifier=${deviceIdentifier}`;
             </script>
             <div class="tap-to-enlarge">Tap to enlarge</div>
         </div>
