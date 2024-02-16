@@ -99,7 +99,7 @@
     </div>
     <div class="bip">BUS INTERSTATE PASS</div>
     <div class="rectangle">
-        <div class="rectangle-text1" onclick="updateZoneText()">3</div>
+        <div class="rectangle-text1">3</div>
         <div class="rectangle-text2">ZONES</div>
     </div>
     <div class="bottom-container">
@@ -116,7 +116,7 @@
         <area shape="rect" coords="250,0,540,180" onclick="backbutton()" alt="Clickable Region">
     </map>
     <map name="passimageMap">
-        <area shape="rect" coords="1,440,1290,615" onclick="backtopass()" alt="Clickable Region">
+        <area shape="rect" coords="0,280,1290,455" onclick="backtopass()" alt="Clickable Region">
     </map>
     <script>
         function updateMonthAndYear() {
@@ -158,12 +158,6 @@
             };
             const dateTimeString = currentDate.toLocaleString('en-US', options);
             datetime.textContent = dateTimeString.replace(" at", " ");
-        }
-        function updateZoneText() {
-            const zoneElement = document.querySelector('.rectangle-text1');
-            let currentZone = parseInt(zoneElement.textContent, 10);
-            currentZone = currentZone === 4 ? 3 : currentZone + 1;
-            zoneElement.textContent = currentZone;
         }
         updateMonthAndYear();
         updateCountdown();
