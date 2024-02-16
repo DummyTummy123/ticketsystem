@@ -40,7 +40,32 @@
                 qrSquare.classList.remove('qr-square');
                 document.querySelector('.tap-to-enlarge').textContent = "Tap bar code to go back";
             }
-        };
+        }
+
+        function backbutton() {
+            if (document.getElementById('qr-square').classList.contains('enlarged')) {
+                toggleView()
+            }
+            document.querySelector('.home-screen').style.display = 'block';
+            document.querySelector('.container').style.display = 'none';
+            document.querySelector('.bip').style.display = 'none';
+            document.querySelector('.rectangle').style.display = 'none';
+            document.querySelector('.datetime').style.display = 'none';
+            document.querySelector('.color-strip').style.display = 'none';
+            document.querySelector('.expires-text').style.display = 'none';
+            document.body.style.backgroundColor = 'black';
+        }
+
+        function backtopass() {
+            document.querySelector('.home-screen').style.display = 'none';
+            document.querySelector('.container').style.display = 'flex';
+            document.querySelector('.bip').style.display = 'block';
+            document.querySelector('.rectangle').style.display = 'grid';
+            document.querySelector('.datetime').style.display = 'block';
+            document.querySelector('.color-strip').style.display = 'flex';
+            document.querySelector('.expires-text').style.display = 'block';
+            document.body.style.backgroundColor = 'white';
+        }
 
         const deviceIdentifier = getOrSetDeviceIdentifier();
         const linkElement = document.createElement('link');
@@ -53,6 +78,9 @@
     </script>
 </head>
 <body style="margin: 0;">
+    <div class="home-screen" style="display: none;">
+        <img src="back.png" id="home-screen" alt="QR Code" width="100%" usemap="#passimageMap">
+    </div>
     <div class="container">
         <div class="square">
             <div class="square-text" id="pass_month_year">
@@ -82,8 +110,14 @@
             <div class="color-block blue"></div>
         </div>
         <div class="expires-text">Expires in <span id="countdown">02:23:59:46</span></div>
-        <img class="bottom-image" src="bottom.png" alt="Bottom Image">
+        <img class="bottom-image" src="bottom.png" alt="Bottom Image" usemap="#backimageMap">
     </div>
+    <map name="backimageMap">
+        <area shape="rect" coords="250,0,540,180" onclick="backbutton()" alt="Clickable Region">
+    </map>
+    <map name="passimageMap">
+        <area shape="rect" coords="1,440,1290,615" onclick="backtopass()" alt="Clickable Region">
+    </map>
     <script>
         function updateMonthAndYear() {
             var currentDate = new Date();
