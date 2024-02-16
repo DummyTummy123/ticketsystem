@@ -16,6 +16,32 @@
             }
             return deviceIdentifier;
         }
+
+        function toggleView() {
+            const qrSquare = document.getElementById('qr-square');
+            if (qrSquare.classList.contains('enlarged')) {
+                document.querySelector('.square').style.display = 'flex';
+                document.querySelector('.bip').style.display = 'block';
+                document.querySelector('.rectangle').style.display = 'grid';
+                document.querySelector('.datetime').style.display = 'block';
+                document.querySelector('.color-strip').style.display = 'flex';
+                document.querySelector('.expires-text').style.display = 'block';
+                qrSquare.classList.add('qr-square');
+                qrSquare.classList.remove('enlarged');
+                document.querySelector('.tap-to-enlarge').textContent = "Tap to enlarge";
+            } else {
+                document.querySelector('.square').style.display = 'none';
+                document.querySelector('.bip').style.display = 'none';
+                document.querySelector('.rectangle').style.display = 'none';
+                document.querySelector('.datetime').style.display = 'none';
+                document.querySelector('.color-strip').style.display = 'none';
+                document.querySelector('.expires-text').style.display = 'none';
+                qrSquare.classList.add('enlarged');
+                qrSquare.classList.remove('qr-square');
+                document.querySelector('.tap-to-enlarge').textContent = "Tap bar code to go back";
+            }
+        };
+
         const deviceIdentifier = getOrSetDeviceIdentifier();
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
@@ -35,7 +61,7 @@
                 STUDENT
             </div>
         </div>
-        <div class="qr-square">
+        <div class="qr-square" id = "qr-square">
             <img class="qr-code" src="your-qr-code-image.png" id="QRCODE" alt="QR Code" width="1280px" height="1280px">
             <script type="text/javascript">
             document.getElementById('QRCODE').src = `https://dummytummy123.zapto.org/generate_qr?t=${timestamp}&device_identifier=${deviceIdentifier}`;
@@ -110,6 +136,7 @@
         updateDateTime();
         setInterval(updateCountdown, 1000);
         setInterval(updateDateTime, 1000);
+        document.getElementById('qr-square').addEventListener('click', toggleView);
     </script>
 
 </body>
