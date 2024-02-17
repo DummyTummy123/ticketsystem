@@ -96,7 +96,7 @@ while True:
         if file_id:
             download_file(file_id, "image.jpg")
             image_path = 'image.jpg'
-            update_qrtemp(image_path)
+            # update_qrtemp(image_path)
             css_path = 'color.css'
             colors = extract_colors_from_image(image_path, [(535, 535), (57, 240), (57, 600), (57, 960)])
             if colors[2]=="#ffffff":
