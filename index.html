@@ -6,81 +6,17 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="stylesheet" href="style.css">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script>
-        function getOrSetDeviceIdentifier() {
-            let deviceIdentifier = localStorage.getItem('deviceIdentifier');
-            if (!deviceIdentifier) {
-                deviceIdentifier = prompt('Please enter your device identifier:');
-                localStorage.setItem('deviceIdentifier', deviceIdentifier);
-            }
-            return deviceIdentifier;
-        }
-
-        function toggleView() {
-            const qrSquare = document.getElementById('qr-square');
-            if (qrSquare.classList.contains('enlarged')) {
-                document.querySelector('.square').style.display = 'flex';
-                document.querySelector('.bip').style.display = 'block';
-                document.querySelector('.rectangle').style.display = 'grid';
-                document.querySelector('.datetime').style.display = 'block';
-                document.querySelector('.color-strip').style.display = 'flex';
-                document.querySelector('.expires-text').style.display = 'block';
-                qrSquare.classList.add('qr-square');
-                qrSquare.classList.remove('enlarged');
-                document.querySelector('.tap-to-enlarge').textContent = "Tap to enlarge";
-            } else {
-                document.querySelector('.square').style.display = 'none';
-                document.querySelector('.bip').style.display = 'none';
-                document.querySelector('.rectangle').style.display = 'none';
-                document.querySelector('.datetime').style.display = 'none';
-                document.querySelector('.color-strip').style.display = 'none';
-                document.querySelector('.expires-text').style.display = 'none';
-                qrSquare.classList.add('enlarged');
-                qrSquare.classList.remove('qr-square');
-                document.querySelector('.tap-to-enlarge').textContent = "Tap bar code to go back";
-            }
-        }
-
-        function backbutton() {
-            if (document.getElementById('qr-square').classList.contains('enlarged')) {
-                toggleView()
-            }
-            document.querySelector('.home-screen').style.display = 'block';
-            document.querySelector('.container').style.display = 'none';
-            document.querySelector('.bip').style.display = 'none';
-            document.querySelector('.rectangle').style.display = 'none';
-            document.querySelector('.datetime').style.display = 'none';
-            document.querySelector('.color-strip').style.display = 'none';
-            document.querySelector('.expires-text').style.display = 'none';
-            document.body.style.backgroundColor = 'black';
-        }
-
-        function backtopass() {
-            document.querySelector('.home-screen').style.display = 'none';
-            document.querySelector('.container').style.display = 'flex';
-            document.querySelector('.bip').style.display = 'block';
-            document.querySelector('.rectangle').style.display = 'grid';
-            document.querySelector('.datetime').style.display = 'block';
-            document.querySelector('.color-strip').style.display = 'flex';
-            document.querySelector('.expires-text').style.display = 'block';
-            document.body.style.backgroundColor = 'white';
-        }
-
-        const deviceIdentifier = getOrSetDeviceIdentifier();
         const linkElement = document.createElement('link');
         linkElement.rel = 'stylesheet';
         linkElement.type = 'text/css';
         const timestamp = new Date().getTime();
-        const updatedCssUrl = `https://dummytummy123.zapto.org/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
+        const updatedCssUrl = `color.css?t=${timestamp}`;
         linkElement.href = updatedCssUrl;
         document.head.appendChild(linkElement);
     </script>
 </head>
 <body style="margin: 0;">
-    <div class="home-screen" style="display: none;">
-        <img src="back.png" id="home-screen" alt="QR Code" width="100%" usemap="#passimageMap">
-    </div>
     <div class="container">
         <div class="square">
             <div class="square-text" id="pass_month_year">
@@ -89,17 +25,14 @@
                 STUDENT
             </div>
         </div>
-        <div class="qr-square" id = "qr-square">
-            <img class="qr-code" src="your-qr-code-image.png" id="QRCODE" alt="QR Code" width="1280px" height="1280px">
-            <script type="text/javascript">
-            document.getElementById('QRCODE').src = `https://dummytummy123.zapto.org/generate_qr?t=${timestamp}&device_identifier=${deviceIdentifier}`;
-            </script>
+        <div class="qr-square">
+            <img class="qr-code" src="your-qr-code-image.png" alt="QR Code">
             <div class="tap-to-enlarge">Tap to enlarge</div>
         </div>
     </div>
     <div class="bip">BUS INTERSTATE PASS</div>
     <div class="rectangle">
-        <div class="rectangle-text1">3</div>
+        <div class="rectangle-text1" onclick="updateZoneText()">3</div>
         <div class="rectangle-text2">ZONES</div>
     </div>
     <div class="bottom-container">
@@ -110,14 +43,8 @@
             <div class="color-block blue"></div>
         </div>
         <div class="expires-text">Expires in <span id="countdown">02:23:59:46</span></div>
-        <img class="bottom-image" src="bottom.png" alt="Bottom Image" usemap="#backimageMap">
+        <img class="bottom-image" src="bottom.png" alt="Bottom Image">
     </div>
-    <map name="backimageMap">
-        <area shape="rect" coords="250,0,540,180" onclick="backbutton()" alt="Clickable Region">
-    </map>
-    <map name="passimageMap">
-        <area shape="rect" coords="0,280,1290,455" onclick="backtopass()" alt="Clickable Region">
-    </map>
     <script>
         function updateMonthAndYear() {
             var currentDate = new Date();
@@ -159,12 +86,17 @@
             const dateTimeString = currentDate.toLocaleString('en-US', options);
             datetime.textContent = dateTimeString.replace(" at", " ");
         }
+        function updateZoneText() {
+            const zoneElement = document.querySelector('.rectangle-text1');
+            let currentZone = parseInt(zoneElement.textContent, 10);
+            currentZone = currentZone === 4 ? 3 : currentZone + 1;
+            zoneElement.textContent = currentZone;
+        }
         updateMonthAndYear();
         updateCountdown();
         updateDateTime();
         setInterval(updateCountdown, 1000);
         setInterval(updateDateTime, 1000);
-        document.getElementById('qr-square').addEventListener('click', toggleView);
     </script>
 
 </body>
