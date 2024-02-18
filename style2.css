@@ -9,6 +9,13 @@ html {
     src: url("SF-Pro-Display-Bold.otf") format("opentype");
 }
 
+@font-face {
+    font-family: 'SF Pro Display Medium';
+    font-style: normal;
+    font-weight: 100;
+    src: url("SF-Pro-Display-Medium.otf") format("opentype");
+}
+
 body {
     font-family: 'SF Pro Display', sans-serif;
     padding-top: constant(safe-area-inset-top); /* iOS 11.2+ */
@@ -37,8 +44,23 @@ body {
 }
 
 .square-text {
-    font-size: 90px;
+    font-size: 70px;
     font-weight: 500;
+}
+
+.enlarged {
+    width: 100%;
+    height: 100%;
+    margin-top: 30vh;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.enlarged img {
+    max-width: 56%;
+    max-height: 56%;
 }
 
 .qr-square {
@@ -60,8 +82,8 @@ body {
 .tap-to-enlarge {
     font-size: 27px;
     font-weight: lighter;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 50px;
 }
 
 .rectangle {
