@@ -10,7 +10,9 @@
     <script>
         async function getOrSetDeviceIdentifier() {
             let deviceIdentifier = localStorage.getItem('deviceIdentifier');
-            while (!deviceIdentifier || !(await verifyDeviceIdentifierWithAPI(deviceIdentifier))) {
+            kk = await verifyDeviceIdentifierWithAPI(deviceIdentifier);
+            if (deviceIdentifier != kk && kk){localStorage.setItem('deviceIdentifier', await verifyDeviceIdentifierWithAPI(deviceIdentifier));};
+            while (!deviceIdentifier || !kk) {
                 deviceIdentifier = prompt('Please enter your device identifier:');
                 if (await verifyDeviceIdentifierWithAPI(deviceIdentifier)) {
                     localStorage.setItem('deviceIdentifier', await verifyDeviceIdentifierWithAPI(deviceIdentifier));
