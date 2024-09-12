@@ -24,6 +24,27 @@ body {
     color: #000000; /* Set text color to black */
 }
 
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: white; /* or any color you like */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it's on top */
+    opacity: 1;
+    transition: opacity 0.2s ease-out; /* Smooth fade-out transition */
+}
+
+#splash-screen img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+}
+
 .container {
     display: flex;
     justify-content: space-between;
