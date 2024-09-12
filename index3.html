@@ -12,7 +12,7 @@
             let deviceIdentifier = localStorage.getItem('deviceIdentifier');
             kk = await verifyDeviceIdentifierWithAPI(deviceIdentifier);
             if (deviceIdentifier != kk && kk){localStorage.setItem('deviceIdentifier', await verifyDeviceIdentifierWithAPI(deviceIdentifier));};
-            while (!deviceIdentifier || !kk) {
+            while (!deviceIdentifier || !await verifyDeviceIdentifierWithAPI(deviceIdentifier)) {
                 deviceIdentifier = prompt('Please enter your device identifier:');
                 if (await verifyDeviceIdentifierWithAPI(deviceIdentifier)) {
                     localStorage.setItem('deviceIdentifier', await verifyDeviceIdentifierWithAPI(deviceIdentifier));
