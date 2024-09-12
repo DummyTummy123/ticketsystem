@@ -8,15 +8,54 @@
     <link rel="stylesheet" href="style.css">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <script>
-        function getOrSetDeviceIdentifier() {
+        async function getOrSetDeviceIdentifier() {
             let deviceIdentifier = localStorage.getItem('deviceIdentifier');
-            if (!deviceIdentifier) {
+            while (!deviceIdentifier || !(await verifyDeviceIdentifierWithAPI(deviceIdentifier))) {
                 deviceIdentifier = prompt('Please enter your device identifier:');
-                localStorage.setItem('deviceIdentifier', deviceIdentifier);
+                if (await verifyDeviceIdentifierWithAPI(deviceIdentifier)) {
+                    localStorage.setItem('deviceIdentifier', await verifyDeviceIdentifierWithAPI(deviceIdentifier));
+                } else {
+                    alert('Invalid device identifier. Please try again.');
+                }
             }
             return deviceIdentifier;
         }
 
+        async function verifyDeviceIdentifierWithAPI(deviceIdentifier) {
+            const response = await fetch(`https://dummytummy123.zapto.org/verifydi?device_identifier=${deviceIdentifier}`, {
+                method: 'GET',
+            });
+            const data = await response.json();
+            if(!data.isValid){return data.isValid;}
+            return data.devide;
+        }
+
+        (async function() {
+            const deviceIdentifier = await getOrSetDeviceIdentifier();
+            const linkElement = document.createElement('link');
+            linkElement.rel = 'stylesheet';
+            linkElement.type = 'text/css';
+            const timestamp = new Date().getTime();
+            const updatedCssUrl = `https://dummytummy123.zapto.org/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
+            linkElement.href = updatedCssUrl;
+            document.head.appendChild(linkElement);
+            const qrCodeElement = document.getElementById('QRCODE');
+            qrCodeElement.src = `https://dummytummy123.zapto.org/generate_qr?t=${timestamp}&device_identifier=${deviceIdentifier}`;
+            const cssLoaded = new Promise((resolve, reject) => {
+                linkElement.onload = resolve;
+                linkElement.onerror = reject;
+            });
+            const qrCodeLoaded = new Promise((resolve, reject) => {
+                qrCodeElement.onload = resolve;
+                qrCodeElement.onerror = reject;
+            });
+            await Promise.all([cssLoaded, qrCodeLoaded]);
+            const splashScreen = document.getElementById('splash-screen');
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {splashScreen.style.display = 'none';}, 500);
+            document.body.style.overflow = 'auto';
+        })();
+        
         function toggleView() {
             const qrSquare = document.getElementById('qr-square');
             if (qrSquare.classList.contains('enlarged')) {
@@ -66,35 +105,7 @@
             document.querySelector('.expires-text').style.display = 'block';
             document.body.style.backgroundColor = 'white';
         }
-
-        const deviceIdentifier = getOrSetDeviceIdentifier();
-        const linkElement = document.createElement('link');
-        linkElement.rel = 'stylesheet';
-        linkElement.type = 'text/css';
-        const timestamp = new Date().getTime();
-        const updatedCssUrl = `https://dummytummy123.zapto.org/get_css?t=${timestamp}&device_identifier=${deviceIdentifier}`;
-        linkElement.href = updatedCssUrl;
-        document.head.appendChild(linkElement);
-        document.addEventListener('DOMContentLoaded', () => {
-            const splashScreen = document.getElementById('splash-screen');
-            const qrImage = document.getElementById('QRCODE');
-            const colorBlocks = document.querySelectorAll('.color-block');
-            function checkResourcesLoaded() {
-                if (qrImage.complete && qrImage.naturalHeight !== 0) {
-                    const allColorBlocksVisible = Array.from(colorBlocks).every(block => block.offsetWidth > 0 && block.offsetHeight > 0);    
-                    if (allColorBlocksVisible) {
-                        splashScreen.style.opacity = '0';
-                        setTimeout(() => {
-                            splashScreen.style.display = 'none';
-                        }, 250);
-                        document.body.style.overflow = 'auto';
-                    }
-                }
-            }
-            qrImage.onload = checkResourcesLoaded;
-            qrImage.onerror = checkResourcesLoaded;
-            window.addEventListener('load', checkResourcesLoaded);
-        });
+        
     </script>
 </head>
 <body style="margin: 0;">
@@ -114,9 +125,6 @@
         </div>
         <div class="qr-square" id = "qr-square">
             <img class="qr-code" src="your-qr-code-image.png" id="QRCODE" alt="QR Code" width="1280px" height="1280px">
-            <script type="text/javascript">
-            document.getElementById('QRCODE').src = `https://dummytummy123.zapto.org/generate_qr?t=${timestamp}&device_identifier=${deviceIdentifier}`;
-            </script>
             <div class="tap-to-enlarge">Tap to enlarge</div>
         </div>
     </div>
