@@ -17,6 +17,7 @@
                 new_res = await verifyDeviceIdentifierWithAPI(deviceIdentifier)
                 if (new_res) {
                     localStorage.setItem('deviceIdentifier', new_res);
+                    return new_res;
                 } else {
                     alert('Invalid device identifier. Please try again.');
                 }
