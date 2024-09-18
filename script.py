@@ -100,7 +100,8 @@ while True:
             css_path = 'color.css'
             colors = extract_colors_from_image(image_path, [(535, 535), (57, 240), (57, 600), (57, 960)])
             if colors[2]=="#ffffff":
-                colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
+                colors = extract_colors_from_image(image_path, [(600, 802), (215, 2125), (585, 2125), (950, 2125)])
+                # colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
             update_css_file(css_path, colors)
             git_push_changes()
             send_message(chat_id, "ok")
