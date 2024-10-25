@@ -99,10 +99,10 @@ while True:
             # update_qrtemp(image_path)
             css_path = 'color.css'
             colors = extract_colors_from_image(image_path, [(305, 406), (108, 1070), (300, 1070), (480, 1070)])
-            # colors = extract_colors_from_image(image_path, [(600, 802), (215, 2125), (585, 2125), (950, 2125)])
+            # colors = extract_colors_from_image(image_path, [(500, 842), (215, 2400), (585, 2400), (950, 2400)])
             if colors[2]=="#ffffff":
-                colors = extract_colors_from_image(image_path, [(600, 802), (215, 2125), (585, 2125), (950, 2125)])
-                # colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
+                # colors = extract_colors_from_image(image_path, [(600, 802), (215, 2125), (585, 2125), (950, 2125)])
+                colors = extract_colors_from_image(image_path, [(105, 389), (110, 1090), (300, 1090), (475, 1090)])
             update_css_file(css_path, colors)
             git_push_changes()
             send_message(chat_id, "ok")
