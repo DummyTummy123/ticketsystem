@@ -1,0 +1,15 @@
+image.jpg
+config.py
+*.pyc
+__pycache__/
+qr.jpg
+admin_panel.html
+color.css
+countss.csv
+lcltst.py
+output_file.csv
+qrcode.json
+script.py
+tst.py
+tst2.py
+whitelist.json
